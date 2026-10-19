@@ -9,6 +9,7 @@ class Event:
         self.title = title
 
     def to_dict(self):
+        # plain dict so jsonify can serialize it
         return {"id": self.id, "title": self.title}
 
 # In-memory data store
@@ -32,6 +33,7 @@ def create_event():
     if not data or "title" not in data or not data["title"]:
         return jsonify({"error": "Title is required"}), 400
 
+    # next id after the current highest
     new_id = max((event.id for event in events), default=0) + 1
     new_event = Event(new_id, data["title"])
     events.append(new_event)
